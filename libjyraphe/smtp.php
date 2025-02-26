@@ -14,8 +14,8 @@
 */
 
 
-define('SMTP_STATUS_DISCONNECTED', 1, true);
-define('SMTP_STATUS_CONNECTED', 2, true);
+define('SMTP_STATUS_DISCONNECTED', 1);
+define('SMTP_STATUS_CONNECTED', 2);
 
 class SMTP
 {
@@ -227,7 +227,7 @@ class SMTP
     $headers = preg_replace('/^\.[^.]/mis', '', $headers);
 
     $body    = str_replace(CRLF . '.', CRLF . '..', $body);
-    $body    = strlen($body) > 0 && $body{0} == '.' ? '.' . $body : $body;
+    $body    = strlen($body) > 0 && $body[0] == '.' ? '.' . $body : $body;
 
     $this->SendData($headers);
     $this->SendData('');
