@@ -36,6 +36,8 @@ sudo mkdir -p /data/jyraphe/var-sc6Qu8Lpx4dV1ss
 
 You are done!
 
+![image](https://github.com/user-attachments/assets/aad2a10c-4e1f-451f-ab00-35e644f4a953)
+
 Jyraphe is a web application of file repository, easy to install and easy to
 use. Jyraphe is an entirely free application, it is distributed under the
 terms of the GNU Affero General Public License, version 3 or later. See the
