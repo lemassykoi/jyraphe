@@ -12,32 +12,73 @@ Debian 12 fresh install, with apache2 and PHP8:
 sed -i -e 's/;extension=gettext/extension=gettext/g' /etc/php/8.2/apache2/php.ini
 ```
 
+- enable rewrite url: `a2enmod rewrite`
+
 - git clone :
 
 ```bash
 cd /var/www
-sudo mv html html.old
 sudo git clone https://github.com/lemassykoi/jyraphe.git
-sudo mv jyraphe html
-sudo chown -R www-data:www-data /var/www/html
-sudo chmod -R 775 /var/www/html
-sudo mkdir -p /data/jyraphe/var-sc6Qu8Lpx4dV1ss
+sudo chown -R www-data:www-data /var/www/jyraphe
+sudo chmod -R 775 /var/www/jyraphe
+sudo mkdir -p /data/jyraphe/var-sc6Qu8Lpx4dV1ss/files
+sudo mkdir -p /data/jyraphe/var-sc6Qu8Lpx4dV1ss/links
+sudo chown -R www-data:www-data /data/jyraphe/var-sc6Qu8Lpx4dV1ss
+sudo chmod -R 775 /data/jyraphe/var-sc6Qu8Lpx4dV1ss
+sudo tee /var/www/jyraphe/.htaccess > /dev/null << 'EOF'
+RewriteEngine On
+RewriteBase /
+
+# Rewrite file-{hash} to index.php?h={hash}
+RewriteRule ^file-([a-zA-Z0-9]+)$ index.php?h=$1 [L,QSA]
+
+# Prevent access to sensitive files
+<FilesMatch "^(config\.php|\.git)">
+    Require all denied
+</FilesMatch>
+EOF
+```
+
+- create apache configuration file
+```
+<IfModule mod_ssl.c>
+    <VirtualHost *:443>
+        ServerName jyraphe.example.com
+        ServerAdmin admin@example.com
+        DocumentRoot /var/www/jyraphe
+        <Directory /var/www/jyraphe>
+            AllowOverride All
+            Require all granted
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/jyraphe_error.log
+        CustomLog ${APACHE_LOG_DIR}/jyraphe_access.log combined
+
+        SSLEngine on
+        SSLCertificateFile      /etc/letsencrypt/live/jyraphe.example.com/fullchain.pem
+        SSLCertificateKeyFile   /etc/letsencrypt/live/jyraphe.example.com/privkey.pem
+        Include /etc/letsencrypt/options-ssl-apache.conf
+    </VirtualHost>
+</IfModule>
 ```
 
 - Edit config files:
 
   - config.php
-	  var_root to define : `/data/jyraphe/var-sc6Qu8Lpx4dV1ss`
+	  - var_root to define : `/data/jyraphe/var-sc6Qu8Lpx4dV1ss`
 
-	  web_root to define : http://YOUR_DEBIAN_INTERNAL_IP_ADDRESS ==> `http://192.168.0.2`
+	  - web_root to define : `http://jyraphe.example.com`
 
-	  lang to define if not french
+	  - lang to define if not french
 
-	  email part (`from_email`, `smtp_host` `smtp_auth` `smtp_port` `smtp_username` and `smtp_password`)
+	  - email part (`from_email`, `smtp_host` `smtp_auth` `smtp_port` `smtp_username` and `smtp_password`)
 
 
   - libjyraphe/hConfig.php
-	  within `private_function`, `var_root` and `jyraphe_root` (same values as in config.php)
+	  within `private_function`:
+      - `var_root` (same value as in config.php)
+
+      - `jyraphe_root` (same value as in config.php)
 
 - Restart Apache2
   `sudo systemctl restart apache2.service`
