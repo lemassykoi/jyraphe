@@ -24,9 +24,13 @@ sudo mkdir -p /data/jyraphe/var-sc6Qu8Lpx4dV1ss
 
   - config.php
 	  var_root to define : `/data/jyraphe/var-sc6Qu8Lpx4dV1ss`
+
 	  web_root to define : http://YOUR_DEBIAN_INTERNAL_IP_ADDRESS ==> `http://192.168.0.2`
+
 	  lang to define if not french
+
 	  email part (`from_email`, `smtp_host` `smtp_auth` `smtp_port` `smtp_username` and `smtp_password`)
+
 
   - libjyraphe/hConfig.php
 	  within `private_function`, `var_root` and `jyraphe_root` (same values as in config.php)
