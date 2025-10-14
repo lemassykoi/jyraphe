@@ -6,7 +6,11 @@ How to :
 
 Debian 12 fresh install, with apache2 and PHP8:
 
-- enable PHP extension `gettext` in php.ini (`sudo nano /etc/php/8.2/apache2/php.ini` then CTRL+W for search, type gettext and enter. Uncomment the line (remove pound at line start )
+- enable PHP extension `gettext` in php.ini (`sudo nano /etc/php/8.2/apache2/php.ini` then CTRL+W for search, type gettext and enter. Uncomment the line (remove comment symbol at line start) or use this bash command:
+
+```bash
+sed -i -e 's/;extension=gettext/extension=gettext/g' /etc/php/8.2/apache2/php.ini
+```
 
 - git clone :
 
