@@ -102,7 +102,43 @@ sudo a2ensite jyraphe.conf
 sudo systemctl reload apache2
 ```
 
-### 6. Configure .htaccess Files
+### 6. Obtain SSL Certificate (Let's Encrypt)
+
+Install certbot and obtain a free SSL certificate:
+
+```bash
+# Install certbot
+sudo apt update
+sudo apt install certbot python3-certbot-apache
+
+# Obtain certificate (interactive)
+sudo certbot --apache -d jyraphe.example.com
+
+# Certbot will automatically:
+# - Verify domain ownership
+# - Issue certificate
+# - Configure Apache SSL settings
+# - Set up auto-renewal
+
+# Test auto-renewal
+sudo certbot renew --dry-run
+```
+
+**Note:** Ensure your domain points to your server's public IP before running certbot.
+
+**Manual certificate installation** (if not using certbot's auto-config):
+
+After obtaining certificates, they'll be located at:
+- Certificate: `/etc/letsencrypt/live/jyraphe.example.com/fullchain.pem`
+- Private Key: `/etc/letsencrypt/live/jyraphe.example.com/privkey.pem`
+
+Certificates auto-renew via cron. Verify renewal cron exists:
+
+```bash
+sudo systemctl status certbot.timer
+```
+
+### 7. Configure .htaccess Files
 
 ```bash
 # Copy example files
@@ -116,7 +152,7 @@ sudo nano /var/www/jyraphe/upload/.htaccess
 # If NOT using LDAP, comment out the <Files "upload.php"> section in .htaccess
 ```
 
-### 7. Configure Application
+### 8. Configure Application
 
 ```bash
 # Copy example configuration
@@ -153,17 +189,17 @@ private function private_function() {
 }
 ```
 
-### 8. Optional: Add Custom Logo
+### 9. Optional: Add Custom Logo
 
 Place your logo as `media/images/logo.jpg` (max 300px width recommended).
 
-### 9. Restart Apache
+### 10. Restart Apache
 
 ```bash
 sudo systemctl restart apache2
 ```
 
-### 10. Test Your Installation
+### 11. Test Your Installation
 
 Visit `https://jyraphe.example.com/` and verify:
 - Landing page displays correctly
