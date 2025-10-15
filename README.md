@@ -262,6 +262,9 @@ Regularly backup:
 
 ## Screenshots
 
+### Welcome page
+<img width="1001" height="849" alt="upload0" src="https://github.com/user-attachments/assets/e8bb10e3-957e-44d1-b000-f3816eca7f69" />
+
 ### Upload a file
 <img width="1047" height="585" alt="upload1" src="https://github.com/user-attachments/assets/0d48d184-d745-4206-bec7-eddc48f038e6" />
 <img width="1000" height="571" alt="upload2" src="https://github.com/user-attachments/assets/c1902b42-2243-4305-9ea0-d431612ccbd6" />
