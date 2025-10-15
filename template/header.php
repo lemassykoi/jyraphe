@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr">
   <head>
-    <title><?php echo _('Jyraphe, your web file repository'); ?></title>
+    <title><?php echo (isset($cfg['server_name']) && $cfg['server_name']) ? $cfg['server_name'] : _('Jyraphe, your web file repository'); ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <link type="text/css" href="<?php echo $cfg['web_root'] . 'media/css/style.css'; ?>" rel="stylesheet" />
@@ -81,6 +81,24 @@
         });
 
       });
+
+      function togglePasswordVisibility() {
+        var passwordField = document.getElementById('jyraphe_key');
+        if (passwordField.type === 'password') {
+          passwordField.type = 'text';
+        } else {
+          passwordField.type = 'password';
+        }
+      }
+
+      // Prevent paste on file input to avoid accidental clipboard uploads
+      $(document).ready(function() {
+        $('#file').on('paste', function(e) {
+          e.preventDefault();
+          alert('Paste is disabled on file upload. Please use the "Choose File" button to select your file.');
+          return false;
+        });
+      });
     </script>
   </head>
 
@@ -88,6 +106,17 @@
 
     <div id="content">
 
-      <h1><a href="<?php echo $cfg['web_root']; ?>"><?php echo _('JBox Web'); ?></a></h1>
-      <h1><a href="<?php echo $cfg['web_root']; ?>"><?php echo _('File repository'); ?></a></h1>
+      <h1><a href="<?php echo $cfg['web_root']; ?>"><?php echo (isset($cfg['server_name']) && $cfg['server_name']) ? $cfg['server_name'] : _('JBox Web'); ?></a></h1>
+      
+      <?php 
+      $logo = isset($cfg['company_logo']) ? $cfg['company_logo'] : '';
+      if ($logo && file_exists(dirname(__FILE__) . '/../media/images/' . $logo)): 
+      ?>
+        <div style="text-align: center; margin: 10px 0 20px 0;">
+          <a href="<?php echo $cfg['web_root']; ?>">
+            <img src="<?php echo $cfg['web_root']; ?>media/images/<?php echo htmlspecialchars($logo); ?>" alt="Company Logo" style="max-width: 300px; height: auto;" />
+          </a>
+        </div>
+      <?php endif; ?>
+      
       <br />

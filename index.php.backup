@@ -34,7 +34,6 @@ require(JYRAPHE_ROOT . 'libjyraphe/hDownload.php');
 
 hConfig::create();
 
-// If ?h= parameter exists, handle file download (public access)
 if(isset($_GET['h'])) {
 
   try {
@@ -55,35 +54,28 @@ if(isset($_GET['h'])) {
   }
 
 } else {
-  // No download requested - show landing page
 
   require(JYRAPHE_ROOT . 'template/header.php');
-  ?>
-  
-  <div id="jyraphe_landing">
-    <h2><?php echo _('Welcome to Jyraphe'); ?></h2>
-    
-    <div class="message info" style="margin: 20px 0;">
-      <h3><?php echo _('Download a file'); ?></h3>
-      <p><?php echo _('If you received a download link, click on it to access your file.'); ?></p>
-      <p><?php echo _('Download links are in the format:'); ?> <code><?php echo $cfg['web_root']; ?>file-xxxxxxxxxx</code></p>
-    </div>
 
-    <div class="message" style="margin: 20px 0; padding: 20px; border: 2px solid #4CAF50; background-color: #f1f8f4;">
-      <h3><?php echo _('Upload a file'); ?></h3>
-      <p><?php echo _('To upload files, you need to authenticate with your Active Directory account.'); ?></p>
-      <p style="margin: 10px 0; padding: 10px; background-color: #e3f2fd; border-left: 4px solid #2196F3;">
-        <strong>ℹ️ Important:</strong> When the login popup appears,<br/>enter your <strong>USERNAME only</strong> (without @domain).<br />
-      </p>
-      <p style="margin-top: 15px;">
-        <a href="upload/" style="display: inline-block; padding: 12px 24px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
-          <?php echo _('Go to Upload Page'); ?> →
-        </a>
-      </p>
-    </div>
-  </div>
+  try {
+    $uploader = new hUpload();
 
-  <?php
+    // Bail out if low on space!
+    if(disk_free_space(hConfig::getVar('var_root')) > hSystem::getMaxUploadSize()) {
+      // Displays the upload form.
+      $uploader->printUploadForm('upload.php', $cfg);
+    } else {
+      throw new hException(_('The server is low on disk space, please try again later.'));
+    }
+  }
+
+  catch(hException $e) {
+    echo '<p class="error">';
+    echo '<img src="/media/images/error.png" />&nbsp;';
+    echo $e->getMessage();
+    echo '</p>';
+  }
+
   require(JYRAPHE_ROOT . 'template/footer.php');
 }
 

@@ -28,7 +28,7 @@ class hConfig {
   static public $handle;
   private $settings;
   private $forbiddenFiles = array('.htaccess');
-  private $filteredExtensions = array('php', 'php3', 'php4', 'php5');
+  private $filteredExtensions = array('php', 'php3', 'php4', 'php5', 'php7', 'phtml', 'phar', 'phps');
   private $private_settings;
 
   /*
@@ -56,7 +56,7 @@ class hConfig {
   * Initialises the settings array.
   */
   private function initialise() {
-    $this->settings = array('var_root' => '',
+    $this->settings = array('var_root' => '/data/jyraphe/var-sc6Qu8Lpx4dV1ss',
                             'rewrite' => false,
                             'password' => '',
                             'hash_size' => 4,
@@ -67,7 +67,7 @@ class hConfig {
                             'time_day' => 86400,
                             'time_week' => 604800,
                             'time_month' => 2419200,
-                            'jyraphe_root' => '');
+                            'jyraphe_root' => '/var/www/jyraphe');
 
     $this->private_settings = array('var_root',
                                     'password',

@@ -103,8 +103,9 @@ class hSystem {
   */
   public static function jyrapheHash($nchars) {
     $hash = "";
-    $bytes = random_bytes($nchars);
-    $hash = bin2hex($bytes);
+    for($i = 0; $i < $nchars; $i++) {
+      $hash .= chr(rand(97,122));
+    }
     return $hash;
   }
 

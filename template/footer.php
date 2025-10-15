@@ -13,7 +13,8 @@
       <div id="copyright">
         <p>
           <a href="http://home.gna.org/jyraphe/"><?php echo _('Powered by Jyraphe'); ?></a><br />
-          <a href="http://www.gnu.org/licenses/agpl.html">Copyright</a> &copy; 2008-2013 <a href="https://gna.org/projects/jyraphe/">Jyraphe Project</a>
+          <a href="http://www.gnu.org/licenses/agpl.html">Copyright</a> &copy; 2008-2013 <a href="https://gna.org/projects/jyraphe/">Jyraphe Project</a><br />
+          <a href="http://www.ipc.tm"><?php echo _('Deployed and adapted by IPC'); ?></a>
         </p>
       </div>
 

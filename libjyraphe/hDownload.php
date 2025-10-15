@@ -77,7 +77,7 @@ class hDownload extends hJyraphe {
       if($userKey == null) {
         throw new hException(_('This file is protected by a key.'), hException::NEED_KEY_ERROR);
       } else {
-        if($key != $userKey) {
+        if(!hash_equals($key, $userKey)) {
           throw hException::getHttpException(403);
         }
       }

@@ -4,4 +4,6 @@ config.php
 AGENTS.md*
 libjyraphe/hConfig.php
 media/images/logo.jpg
+.htaccess
+upload/.htaccess
 

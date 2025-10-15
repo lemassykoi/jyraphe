@@ -109,3 +109,37 @@ td.content {
   width: 300px;
   clear:both;
 }
+
+
+#jyraphe_landing h2 {
+  margin-bottom: 2em;
+}
+
+#jyraphe_landing .message {
+  width: auto;
+  max-width: 40em;
+  margin: 2em auto;
+  padding: 20px;
+  text-align: center;
+}
+
+#jyraphe_landing .message h3 {
+  margin-top: 0;
+}
+
+#jyraphe_landing .message p {
+  margin: 1em 0;
+}
+
+/* Fix landing page alignment */
+#jyraphe_landing {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#jyraphe_landing > div {
+  width: 45em;
+  max-width: 90%;
+}

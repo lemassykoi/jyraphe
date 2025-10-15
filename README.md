@@ -25,18 +25,6 @@ sudo mkdir -p /data/jyraphe/var-sc6Qu8Lpx4dV1ss/files
 sudo mkdir -p /data/jyraphe/var-sc6Qu8Lpx4dV1ss/links
 sudo chown -R www-data:www-data /data/jyraphe/var-sc6Qu8Lpx4dV1ss
 sudo chmod -R 775 /data/jyraphe/var-sc6Qu8Lpx4dV1ss
-sudo tee /var/www/jyraphe/.htaccess > /dev/null << 'EOF'
-RewriteEngine On
-RewriteBase /
-
-# Rewrite file-{hash} to index.php?h={hash}
-RewriteRule ^file-([a-zA-Z0-9]+)$ index.php?h=$1 [L,QSA]
-
-# Prevent access to sensitive files
-<FilesMatch "^(config\.php|\.git)">
-    Require all denied
-</FilesMatch>
-EOF
 ```
 
 - create apache configuration file
@@ -61,6 +49,13 @@ EOF
     </VirtualHost>
 </IfModule>
 ```
+
+- Configure Apache .htaccess files:
+
+  - Copy `.htaccess.example` to `.htaccess`
+  - Copy `upload/.htaccess.example` to `upload/.htaccess`
+  - If using LDAP authentication, edit both files with your LDAP server details
+  - If NOT using LDAP, comment out the `<Files "upload.php">` section in `.htaccess`
 
 - Edit config files:
 

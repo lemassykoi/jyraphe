@@ -106,7 +106,7 @@ class hUpload extends hJyraphe {
     if(!$re_upload) {
       if(isset($file['xmlrpc']) && $file['xmlrpc']) {
         $move_success = rename($file['tmp_name'], $this->getFile($name));
-        chmod($this->getFile($name), '777');
+        chmod($this->getFile($name), 0644);
       } else {
         $move_success = move_uploaded_file($file['tmp_name'], $this->getFile($name));
       }
@@ -115,9 +115,6 @@ class hUpload extends hJyraphe {
     if($move_success || $re_upload) {
       $handle = fopen($this->getlink($link), 'w');
       if ($handle) {
-        error_log(var_export($options, true));
-        error_log($time);
-
         fwrite($handle,
                '[Link]' . hConfig::getVar('endl')
                . 'name = ' . $name . hConfig::getVar('endl')
@@ -216,7 +213,12 @@ class hUpload extends hJyraphe {
 
                 <tr>
                   <td class="label"><label for="jyraphe_key"><?php echo _('Password :'); ?></label></td>
-                  <td class="content"><input type="text" id="jyraphe_key" name="options[key]" /></td>
+                  <td class="content">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                      <input type="password" id="jyraphe_key" name="options[key]" style="flex: 1;" />
+                      <button type="button" onclick="togglePasswordVisibility()" style="padding: 5px 10px; cursor: pointer;" title="<?php echo _('Show/Hide Password'); ?>">👁️</button>
+                    </div>
+                  </td>
                 </tr>
 
                 <tr>

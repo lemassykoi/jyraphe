@@ -51,7 +51,7 @@ function humanReadableFilesize($size) {
 
 function showHtml() {
   $ua = browserInfo();
-  if ($ua['curl'] || $ua['wget']){
+  if (isset($ua['curl']) || isset($ua['wget'])){
     return false;
   } else {
     return true;

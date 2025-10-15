@@ -77,13 +77,15 @@ if (in_array($_SERVER['REQUEST_METHOD'], array('POST', 'PUT'))) {
   } else {
 
     try {
+      // Verify user is authenticated via LDAP
+      if (!isset($_SERVER['REMOTE_USER']) || empty($_SERVER['REMOTE_USER'])) {
+        throw new hException(_('Upload access denied. Authentication required.'));
+      }
 
       $uploader = new hUpload();
 
       $link = "";
       $web_root = $cfg['web_root'];
-
-      error_log(var_export($_REQUEST, true));
 
       if (!empty($_POST['options'])) {
         $options = $_POST['options'];

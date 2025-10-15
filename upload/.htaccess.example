@@ -1,0 +1,15 @@
+# LDAP Authentication for Upload Access
+
+AuthType Basic
+AuthName "Jyraphe Upload - Enter USERNAME only (without @domain)"
+AuthBasicProvider ldap
+
+# LDAP Server URL
+AuthLDAPURL "ldaps://your-dc-server.example.lan:636/DC=EXAMPLE,DC=lan?sAMAccountName?sub"
+
+# Bind Account Credentials
+AuthLDAPBindDN "CN=Service Account,OU=ServiceAccounts,DC=EXAMPLE,DC=lan"
+AuthLDAPBindPassword "your_ldap_bind_password"
+
+# Require membership in group
+Require ldap-group CN=Jyraphe_Users,OU=Groups,DC=EXAMPLE,DC=lan

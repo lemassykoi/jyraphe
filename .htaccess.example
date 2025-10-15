@@ -1,0 +1,21 @@
+RewriteEngine On
+RewriteBase /
+
+# Rewrite file-{hash} to index.php?h={hash}
+RewriteRule ^file-([a-zA-Z0-9]+)$ index.php?h=$1 [L,QSA]
+
+# Protect upload.php with LDAP authentication (optional - comment out if not using LDAP)
+<Files "upload.php">
+    AuthType Basic
+    AuthName "Jyraphe Upload - Enter USERNAME only (without @domain)"
+    AuthBasicProvider ldap
+    AuthLDAPURL "ldaps://your-dc-server.example.lan:636/DC=EXAMPLE,DC=lan?sAMAccountName?sub"
+    AuthLDAPBindDN "CN=Service Account,OU=ServiceAccounts,DC=EXAMPLE,DC=lan"
+    AuthLDAPBindPassword "your_ldap_bind_password"
+    Require ldap-group CN=Jyraphe_Users,OU=Groups,DC=EXAMPLE,DC=lan
+</Files>
+
+# Prevent access to sensitive files
+<FilesMatch "^(config\.php|AGENTS\.md|\.git)">
+    Require all denied
+</FilesMatch>

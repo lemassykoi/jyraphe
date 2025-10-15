@@ -168,7 +168,19 @@ class SMTP
 
     $greeting = $this->getData();
 
-    return $this->auth ? $this->ehlo() : $this->helo();
+    // Use EHLO for auth or port 587 (submission port requiring STARTTLS)
+    if ($this->auth || $this->port == 587) {
+      $this->ehlo();
+      
+      // Enable STARTTLS for port 587
+      if ($this->port == 587) {
+        $this->starttls();
+      }
+      
+      return true;
+    } else {
+      return $this->helo();
+    }
   }
 
 
@@ -265,6 +277,51 @@ class SMTP
     }
 
     throw new SMTPException('EHLO command failed, output: ' . trim(substr(trim($error),3)));
+  }
+
+
+  /**
+  * Implements the STARTTLS command to enable TLS encryption
+  */
+  public function starttls() {
+    if (!$this->Connected()) {
+        throw new SMTPException('STARTTLS: Not connected');
+    }
+
+    // Send STARTTLS command
+    if (!$this->SendData('STARTTLS')) {
+        throw new SMTPException('STARTTLS: Failed to send command');
+    }
+
+    // Check for 220 response
+    $response = $this->getData();
+    if (substr($response, 0, 3) !== '220') {
+        throw new SMTPException('STARTTLS command failed, output: ' . trim(substr(trim($response), 3)));
+    }
+
+    // Set crypto options - allow self-signed certs for localhost
+    $crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT;
+    
+    // For localhost/127.0.0.1, disable peer verification to allow self-signed certs
+    if ($this->host === 'localhost' || $this->host === '127.0.0.1' || $this->host === '::1') {
+        stream_context_set_option($this->socket, 'ssl', 'verify_peer', false);
+        stream_context_set_option($this->socket, 'ssl', 'verify_peer_name', false);
+        stream_context_set_option($this->socket, 'ssl', 'allow_self_signed', true);
+    }
+
+    // Enable crypto on the socket
+    $crypto_result = stream_socket_enable_crypto($this->socket, true, $crypto_method);
+    
+    if (!$crypto_result) {
+        throw new SMTPException('STARTTLS: Failed to enable TLS encryption');
+    }
+
+    // Send EHLO again after STARTTLS
+    if (!$this->ehlo()) {
+        throw new SMTPException('STARTTLS: EHLO failed after TLS negotiation');
+    }
+
+    return true;
   }
 
 
