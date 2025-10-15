@@ -1,6 +1,6 @@
 # Jyraphe - Secure File Sharing
 
-A lightweight, secure file sharing application with LDAP authentication and email notifications. Based on the original Jyraphe project with modern security enhancements.
+A lightweight, secure file sharing application with LDAP authentication and email notifications. Based on the original Jyraphe project with modern security enhancements (but old UX).
 
 ## Features
 
@@ -259,6 +259,25 @@ Regularly backup:
 - `/var/www/jyraphe/` - Application code
 - `/data/jyraphe/` - Uploaded files and metadata
 - `/etc/apache2/sites-available/jyraphe.conf` - Apache configuration
+
+## Screenshots
+
+### Upload a file
+<img width="1047" height="585" alt="upload1" src="https://github.com/user-attachments/assets/0d48d184-d745-4206-bec7-eddc48f038e6" />
+<img width="1000" height="571" alt="upload2" src="https://github.com/user-attachments/assets/c1902b42-2243-4305-9ea0-d431612ccbd6" />
+
+### File uploaded
+<img width="987" height="414" alt="upload3" src="https://github.com/user-attachments/assets/64cf78a4-760e-4f25-a325-1b65e9b80d6d" />
+
+### Sender mail received
+<img width="617" height="284" alt="upload4" src="https://github.com/user-attachments/assets/ed6a6b95-776e-4ec2-b99e-647c633b62d2" />
+
+### Download the file
+<img width="988" height="463" alt="upload5" src="https://github.com/user-attachments/assets/649023e3-73bd-4616-bc88-29b9c05c4719" />
+
+### File Downloaded mail received
+<img width="529" height="210" alt="upload6" src="https://github.com/user-attachments/assets/bd177b1f-a443-4883-bc02-1da6c3c89dd3" />
+
 
 ## Troubleshooting
 
